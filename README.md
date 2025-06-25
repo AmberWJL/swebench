@@ -72,7 +72,7 @@ python pr_extractor.py --input-file ./path/to/my_prs.csv --output-file ./output/
 
 ## Prompt Generation
 
-This project also includes a script to generate AI prompts from your pull request data.
+This project includes scripts to generate AI prompts from your pull request data, with special focus on creating detailed prompts for AI coding agents.
 
 ### 1. Add Your OpenAI API Key
 
@@ -81,14 +81,63 @@ Add your OpenAI API key to your `.env` file:
 OPENAI_API_KEY="your_openai_api_key_here"
 ```
 
-### 2. Run the Script
+### 2. Run the Basic Prompt Generator
 
-After running the `pr_extractor.py` script, you can generate prompts by running:
+After running the `pr_extractor.py` script, you can generate simple prompts by running:
 ```bash
 python prompt_generator.py
 ```
 
 The script will read the `pr_data.json` file, and for each pull request, it will generate a concise, actionable prompt.
+
+### 3. Enhanced Coding Agent Prompts
+
+The prompt generator has been enhanced to create detailed prompts specifically for AI coding agents. These prompts include:
+
+- Technical details extracted from PR descriptions
+- Code context from review comments
+- Code snippets found in PR discussions
+- Structured implementation guidance
+
+#### Command Line Options
+
+```bash
+python prompt_generator.py --input-file pr_data.json --output-file coding_prompts.json --model gpt-4
+```
+
+#### Available Options
+
+- `--input-file`: Path to the input JSON file (default: `pr_data.json`)
+- `--output-file`: Path to save the generated prompts (default: `coding_prompts.json`)
+- `--model`: OpenAI model to use (default: `gpt-4`, can use `gpt-3.5-turbo` for faster results)
+
+#### Output Format
+
+The enhanced prompt generator creates a structured JSON output with metadata:
+
+```json
+{
+  "repo_name": [
+    {
+      "original_pr": {
+        "title": "PR Title",
+        "url": "PR URL"
+      },
+      "generated_prompt": "Detailed coding instructions...",
+      "timestamp": "2025-06-25T15:22:45.123456",
+      "model_used": "gpt-4"
+    }
+  ]
+}
+```
+
+#### Note on Corporate Networks
+
+If you're running this script in a corporate environment that restricts access to AI services, you may need to:
+
+1. Use a non-corporate network connection
+2. Configure a proxy in your environment
+3. Run the script on a machine with unrestricted internet access
 
 ## Output Format
 
